@@ -835,8 +835,10 @@ function showLegend(){ try{ document.getElementById('legend-section')?.classList
         function createPlayerRow(player, teamName) {
             const row = document.createElement('div');
             row.className = 'player-row';
+            const slotAbbr = { 'SUPER_FLEX': 'SFLX', 'FLEX': 'FLX' };
+            const displaySlot = state.currentRosterView === 'depth' ? (slotAbbr[player.slot] || player.slot) : player.pos;
             row.dataset.assetId = player.id;
-            row.dataset.assetLabel = player.name;
+            row.dataset.assetLabel = `<span class="player-tag" style="background-color: ${TAG_COLORS[displaySlot] || 'var(--pos-bn)'};">${displaySlot}</span><span class="player-name">${player.name}</span>`;
             row.dataset.assetKtc = player.ktc || 0;
 
             if (state.tradeBlock[teamName]?.find(a => a.id === player.id)) {
@@ -845,8 +847,6 @@ function showLegend(){ try{ document.getElementById('legend-section')?.classList
 
             const adp = player.adp ? player.adp.toFixed(1) : '—';
             const ktc = player.ktc || '—';
-            const slotAbbr = { 'SUPER_FLEX': 'SFLX', 'FLEX': 'FLX' };
-            const displaySlot = state.currentRosterView === 'depth' ? (slotAbbr[player.slot] || player.slot) : player.pos;
             const teamTagHTML = player.team && player.team !== 'FA' 
                 ? `<div class="team-tag" style="background-color: ${TEAM_COLORS[player.team] || '#64748b'}; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">${player.team}</div>` 
                 : `<div class="team-tag" style="background-color: #64748b; color: white;">${player.team || 'FA'}</div>`;
@@ -961,7 +961,7 @@ function showLegend(){ try{ document.getElementById('legend-section')?.classList
                 if (assets.length > 0) {
                     assets.forEach(asset => {
                         const ktcColor = getKtcColor(asset.ktc);
-                        assetsHTML += `<div class="trade-asset-chip"><span>${asset.label}</span><span class="ktc" style="color: ${ktcColor}">(${asset.ktc})</span></div>`;
+                        assetsHTML += `<div class="trade-asset-chip">${asset.label}<span class="ktc" style="color: ${ktcColor}">(${asset.ktc})</span></div>`;
                     });
                 } else {
                     assetsHTML = `<span class="text-xs text-slate-500 p-2">Select assets...</span>`;
