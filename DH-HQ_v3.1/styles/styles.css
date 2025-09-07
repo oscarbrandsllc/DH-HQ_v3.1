@@ -960,7 +960,11 @@
             text-align: center;
             color: var(--color-text-secondary);
         }
-        .trade-asset-chip .ktc { 
+        .trade-asset-chip .player-tag {
+            font-size: 0.55rem;
+            padding: 1px 3px;
+        }
+        .trade-asset-chip .ktc {
             font-weight: 700;
             color: var(--color-text-primary);
         }
